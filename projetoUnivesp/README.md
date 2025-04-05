@@ -117,15 +117,15 @@ projetoUnivesp/
 
 ### Tela de Login
 
-![Tela de Login](https://via.placeholder.com/800x400?text=Tela+de+Login)
+![Tela de Login](./app/View/img/Login.png)
 
 ### Tela de Bem-Vindo
 
-![Tela de Bem-Vindo](https://via.placeholder.com/800x400?text=Tela+de+Bem-Vindo)
+![Tela de Bem-Vindo](./app/View/img/BemVindo.png)
 
 ### Tela de Empréstimos
 
-![Tela de Empréstimos](https://via.placeholder.com/800x400?text=Tela+de+Empréstimos)
+![Tela de Empréstimos](./app/View/img/Emprestimo.png)
 
 ## 👨‍🎓 Equipe
 
