@@ -1,0 +1,77 @@
+/* Estilo genérico para o body */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Classe para o background da página de login */
+.body-login {
+  background-image: url("../View/img/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh; 
+  margin: 0;
+}
+
+/* Classe para o background da página Bem-Vindo */
+.body-bem-vindo {
+  background-image: url("../View/img/backHome.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
+
+
+/* Classe para o formulário de login */
+.form-signin {
+  max-width: 400px;
+  padding: 30px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Estilo para os inputs do formulário */
+.form-signin .form-control {
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+/* Estilo para os botões */
+.form-signin .btn {
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Estilo para o texto de rodapé */
+.text-muted {
+  font-size: 0.75rem;
+}
+
+/* Estilo para a barra de navegação */
+.navbar {
+  margin-bottom: 30px;
+}
+
+/* Estilo para os títulos */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* Estilo para o texto de boas-vindas */
+#welcomeMessage {
+    color: rgb(95, 91, 91); /* Ajusta a cor do texto para contraste */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adiciona sombra ao texto */
+}
+
+/* Estilo para o container */
+.container {
+    text-align: center;
+    padding-top: 50px;
+}
