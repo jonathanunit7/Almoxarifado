@@ -1,116 +1,108 @@
 <?php 
 
+    if(isset($_SESSION['perfil'])){
+        if($_SESSION['perfil'] != 'Administrador' && $_SESSION['perfil'] != 'Almoxerife'){
+            header("refresh:1;url=../view/acessoNegado.php");
+            exit;     
+        }
+    }
+
 include 'header.php'; 
 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-   
+  <title>Empréstimo de Equipamentos</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Empréstimo de Equipamentos</h2>
-    <form method="post" action="../Action/emprestimo.php" id="formulario">    
-        <hr>
-        <div class="container mt-3">
-             <div class="row">
-                <div class="col-md-6">  
-                    <div class="mb-3">
-        <label for="dataHora" class="form-label">Escolha Data e Hora para o inicio do emprestimo</label>
-        <input type="text" id="data_inicio" name="data_inicio_emprestimo" class="form-control border-dark rounded-end-3 shadow-sm" placeholder="Selecione a data e hora" required>
-                    </div>
-                </div>
-        <div class="col-md-6">
-        <div class="mb-3">
-            <label for="dataHora" class="form-label">Escolha Data e Hora para o fim do emprestimo</label>
-            <input type="text" id="data_fim" name="data_fim_emprestimo"  class="form-control border-dark rounded-end-3 shadow-sm" placeholder="Selecione a data e hora" required>
-        </div>
+<div class="container mt-4 mb-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Empréstimo de Equipamentos</h3>
+    </div>
+    <div class="card-body">
+
+      <form method="post" action="../Action/emprestimo.php" id="formulario">
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <label for="data_inicio" class="form-label">Início do Empréstimo</label>
+            <input type="datetime-local" id="data_inicio" name="data_inicio_emprestimo" class="form-control" required>
           </div>
-      </div>
-    </div>
+          <div class="col-md-3">
+            <label for="data_fim" class="form-label">Fim do Empréstimo</label>
+            <input type="datetime-local" id="data_fim" name="data_fim_emprestimo" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="destino" class="form-label">Destino</label>
+            <input type="text" id="destino" name="destino" class="form-control" placeholder="Especifique o destino" required>
+          </div>
+        </div>
 
-       
-        
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-6">        
-                Nome do Solicitante:    
-                <input type="text" id="solicitante" name="solicitante"  class="form-control border-dark rounded-end-3 shadow-sm" required>
-            </div>
-        <div class="col-md-6">
-                CPF do Solicitante:    
-                <input type="text" id="cpf_solicitante" name="cpf_solicitante" class="form-control border-dark rounded-end-3 shadow-sm" required>
-            </div>
-      </div>
-    </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label for="solicitante" class="form-label">Nome do Solicitante</label>
+            <input type="text" id="solicitante" name="nome_solicitante" class="form-control" required>
+          </div>
+          <div class="col-md-4">
+            <label for="cpf_solicitante" class="form-label">CPF do Solicitante</label>
+            <input type="text" id="cpf_solicitante" name="cpf_solicitante" class="form-control" required>
+          </div>
+          <div class="col-md-4">
+            <label for="cpf_solicitante" class="form-label">Nome da atividade</label>
+            <input type="text" id="nome_atividade" name="nome_atividade" class="form-control" required>
+          </div>
+        </div>
+
         <hr>
 
-     <label for="dataHora" class="form-label">Leitura de Código de Barras</label>    
-        <input type="text" id="codigoDeBarras" name="codigoDeBarras" class="form-control border-dark rounded-end-3 shadow-sm"placeholder="Escaneie o Código de Barras" autofocus>
-        <button type="button" id="adicionarEquipamento" class="btn btn-primary mt-3">Adicionar</button>
+        <div class="mb-3">
+          <label for="codigoDeBarras" class="form-label">Leitura de Código de Barras</label>
+          <div class="input-group">
+            <input type="text" id="codigoDeBarras" name="codigoDeBarras" class="form-control" placeholder="Escaneie o código de barras" autofocus>
+            <button type="button" id="adicionarEquipamento" class="btn btn-outline-primary">Adicionar</button>
+          </div>
+        </div>
 
-    <h3>Itens para Empréstimo</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th width="300px">Código de Barras</th>
-                <th width="400px">Nome</th>
-                <th width="200px">Tipo</th>
-                <th width="200px">Ação</th>
-            </tr>
-        </thead>
-        <tbody id="listaItens"></tbody>
-    </table>
-    <button type="submit" class="btn btn-success">Confirmar Empréstimo</button>
-</form>
+        <h4 class="mt-4">Itens para Empréstimo</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Código de Barras</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="listaItens"></tbody>
+          </table>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-success btn-lg">Confirmar Empréstimo</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<?php 
+  if (isset($_GET['msg'])) {
+    $mensagem = htmlspecialchars($_GET['msg']);
+    echo "<div class='alert alert-success alert-dismissible fade show container' role='alert'>
+            <strong>Resultado:</strong> $mensagem
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+    unset($_SESSION['msg']);
+  }
+?>
     <script>
 
-    function validarCpf(cpf) {
-    // Remove caracteres especiais (pontos, traços)
-    cpf = cpf.replace(/[^\d]+/g, '');
 
-    // Verifica se o CPF tem 11 dígitos
-    if (cpf.length !== 11) {
-        return false;
-    }
 
-    // Não permite CPFs com todos os números iguais (ex: 111.111.111-11)
-    if (/^(\d)\1{10}$/.test(cpf)) {
-        return false;
-    }
-
-    // Validação dos dois últimos dígitos verificadores
-    let soma = 0;
-    let resto;
-
-    // Valida o primeiro dígito verificador
-    for (let i = 0; i < 9; i++) {
-        soma += parseInt(cpf.charAt(i)) * (10 - i);
-    }
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) {
-        resto = 0;
-    }
-    if (resto !== parseInt(cpf.charAt(9))) {
-        return false;
-    }
-
-    soma = 0;
-    // Valida o segundo dígito verificador
-    for (let i = 0; i < 10; i++) {
-        soma += parseInt(cpf.charAt(i)) * (11 - i);
-    }
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) {
-        resto = 0;
-    }
-    if (resto !== parseInt(cpf.charAt(10))) {
-        return false;
-    }
-
-    return true;
-}
 
 
 function validarData(data_inicio_emprestimo, data_fim_emprestimo){
@@ -188,39 +180,14 @@ function validarData(data_inicio_emprestimo, data_fim_emprestimo){
         });
 
         
-  flatpickr("#data_fim", {
-      enableTime: true,
-      dateFormat: "d-m-Y H:i:ss",
-      time_24hr: true
-  });
-
-  flatpickr("#data_inicio", {
-      enableTime: true,
-      dateFormat: "d-m-Y H:i:ss",
-      time_24hr: true
-  });
 
    
 
 
 </script>
+<?php include 'footer.php'; ?>
 </body>
 </html>
 
-
 				
 
-<?php 
-
-if (isset($_GET['msg'])) {
-    $mensagem = htmlspecialchars($_GET['msg']);
-    echo "<div class='alert alert-success alert-dismissible fade show mt-5' role='alert'>
-            <strong>Resultado:</strong> $mensagem
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-          </div>";
-}
-
-    unset($_SESSION['msg']);
-
-
-include 'footer.php'; ?>

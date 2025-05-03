@@ -1,25 +1,22 @@
+<?php include 'header.php'; ?>
 
 <?php 
-
-include 'header.php'; 
-
-    $emprestimos ="";
-      foreach ($resultado as $result) {
-            $emprestimos .= '<tr id="equipamento-' . $result['codigo_de_barras'] . '">
-                                <td name="nome_equipamento">' . $result['nome_equipamento'] . '</td>
-                                <td name="codigo_de_barras">' . $result['codigo_de_barras'] . '</td>
-                                <td name="excluir">
-                                    <button type="button" class="btn btn-danger btn-sm remover-equipamento"
-                                        data-emprestimo="' . $result['id_emprestimo'] . '"
-                                        data-equipamento="' . $result['codigo_de_barras'] . '">
-                                        Remover
-                                    </button>
-                                </td>
-                            </tr>';
-
-        }
-
-
+    $emprestimos = "";
+    foreach ($resultado as $result) {
+        $emprestimos .= '<tr id="equipamento-' . $result['codigo_de_barras'] . '">
+                            <td>' . $result['nome_equipamento'] . '</td>
+                            <td>' . $result['codigo_de_barras'] . '</td>';
+                            if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife' ){
+                            $emprestimos .= '<td>
+                                                <button type="button" class="btn btn-danger btn-sm remover-equipamento"
+                                                    data-emprestimo="' . $result['id_emprestimo'] . '"
+                                                    data-equipamento="' . $result['codigo_de_barras'] . '">
+                                                    Remover
+                                                </button>
+                                            </td>';
+                            }                
+        $emprestimos .='</tr>';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -27,76 +24,102 @@ include 'header.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Empréstimo número: </title>
+    <title>Editar Empréstimo Nº <?= $resultado[0]['id_emprestimo'] ?></title>
 </head>
-<body class="container mt-4">
-    <h2 class="container mt-4">Editar Equipamentos do Empréstimo</h2>
-    
-        <form action="../Action/salvarEdicao.php" method="POST" class="container">
-        <div class="container">
-        <div class="row ">
-            <div class="mb-3 col-md-6">    
-                <h3>Número:</h3>
-                <input type="text" class="form-control " id ="emprestimo" name ="emprestimo" value="<?= $resultado[0]['id_emprestimo'] ?>" readonly>
-            </div>
-            <div class="mb-3 col-md-6">    
-                <h3>Solicitante:</h3>
-                <input type="text" id="solicitante" name="solicitante" class="form-control" value="<?= $resultado[0]['solicitante'] ?>" readonly>
-                <input type="hidden" name="cpf_solicitante" value="<?= $resultado[0]['cpf_solicitante']  ?>">
-            </div>
-            <div class="mb-3 col-md-6">
-                <h3>Data inicial:</h3>
-                <input type="text" id="data_inicio_emprestimo" name="data_inicio_emprestimo" class="form-control " value="<?= $resultado[0]['data_inicio_emprestimo'] ?>" readonly>
-            </div>
-            <div class="mb-3 col-md-6">
-                <h3>Data final:</h3>
-                <input type="text" id="data_fim_emprestimo" name="data_fim_emprestimo" class="form-control " value="<?= $resultado[0]['data_fim_emprestimo'] ?>" readonly>
-            </div>
-        </div>
-        </div>        
-            <table class="table table-bordered container mt-3" >
-                <thead>
-                    <tr>
-                        <th>Equipamento</th>
-                        <th>Código de Barra</th>
-                        <th>Ação</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    echo $emprestimos; 
-                     ?>
-                    
-                </tbody>
-            </table>
-            
-        
-            <input type="hidden" name="id_emprestimo" value="<?= $resultado[0]['id_emprestimo'] ?>">
+<body>
 
-            <h4>Buscar equipamento para este emprestimo:</h4>
-            <input type="text" id="busca-equipamento" name="busca-equipamento"  class="form-control border-dark rounded-end-3 shadow-sm" autocomplete="off">
-            <div id="lista-equipamentos" ></div>
-            <br>
-            
-            <ul id="equipamentos-selecionados" class="col-md-6 "></ul>
-
-            <button type="submit" class="btn btn-primary ">Salvar Alterações</button>
-        </form>
-
-    
-    <div class="container mt-4">  
-    <a href="listarEmprestimo.php" class="btn btn-secondary mt-3">Voltar</a>
+<div class="container mt-5 mb-5">
+  <div class="card shadow-sm border-0 rounded-0">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">Editar Equipamentos do Empréstimo</h3>
     </div>
-</body>
+    <div class="card-body">
 
+      <form action="../Action/editarEmprestimo.php" method="POST">
 
-</html>
+        <div class="row g-4 mb-4">
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Número do Empréstimo</label>
+            <input type="text" class="form-control rounded-0" name="id_emprestimo" value="<?= $resultado[0]['id_emprestimo'] ?>" readonly>
+          </div>
+
+          <div class="col-md-5">
+            <label class="form-label fw-bold">Solicitante</label>
+            <input type="text" class="form-control rounded-0" name="solicitante" value="<?= $resultado[0]['solicitante'] ?>" readonly>
+            <input type="hidden" name="cpf_solicitante" value="<?= $resultado[0]['cpf_solicitante'] ?>">
+          </div>
+
+          <div class="col-md-5">
+            <label class="form-label fw-bold">Nome da Atividade</label>
+            <input type="text" class="form-control rounded-0" name="nome_atividade" value="<?= $resultado[0]['atividade'] ?>" readonly>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-bold">Data Inicial</label>
+            <input type="text"   class="form-control rounded-0" name="data_inicio_emprestimo" value="<?= $resultado[0]['data_inicio_emprestimo'] ?>" readonly>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-bold">Data Final</label>
+            <input type="text" class="form-control rounded-0" name="data_fim_emprestimo" value="<?= $resultado[0]['data_fim_emprestimo'] ?>" readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Destino</label>
+            <input type="text" class="form-control rounded-0" name="destino" value="<?= $resultado[0]['destino'] ?>"  readonly>
+          </div>
+
+          
+        </div>
+
+        <div class="table-responsive mb-4">
+          <table class="table table-striped table-bordered align-middle text-center">
+            <thead class="table-primary">
+              <tr>
+                <th>Equipamento</th>
+                <th>Código de Barras</th>
+                <?php if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife'){ ?> 
+                    <th>Ação</th>
+                <?php } ?>    
+              </tr>
+            </thead>
+            <tbody>
+              <?= $emprestimos; ?>
+            </tbody>
+          </table>
+        </div>
+        <?php 
+            if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife'){
+        ?> 
+            <div class="mb-4">
+              <label class="form-label fw-bold">Buscar Equipamento para este Empréstimo</label>
+              <input type="text" id="busca-equipamento" name="busca-equipamento" class="form-control rounded-0 shadow-sm" autocomplete="off" placeholder="Digite o nome do equipamento...">
+              <div id="lista-equipamentos" class="list-group mt-2"></div>
+            </div>
+
+            <div class="mb-4">
+              <ul id="equipamentos-selecionados" class="list-group"></ul>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-success">Salvar Alterações</button>
+              <a href="listarEmprestimo.php" class="btn btn-secondary">Voltar</a>
+            </div>
+        <?php }else{ ?>
+            <a href="listarEmprestimo.php" class="btn btn-secondary">Voltar</a>
+        <?php } ?> 
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<?php include 'footer.php'; ?>
 
 <script type="text/javascript">
-    
 
 $(document).ready(function() {
+    // Remover equipamento existente
     $(".remover-equipamento").click(function() {
         let equipamentoId = $(this).data("equipamento");
         let emprestimoId = $(this).data("emprestimo");
@@ -125,22 +148,19 @@ $(document).ready(function() {
             });
         }
     });
-});
 
-    // Evento de digitação no campo de busca
+    // Buscar novo equipamento
     $('#busca-equipamento').keyup(function() {
         let busca = $(this).val();
-        let data_inicio_emprestimo = $('#data_inicio_emprestimo').val();
-        let data_fim_emprestimo = $('#data_fim_emprestimo').val();
-        if (busca.length >= 2) { // Faz a busca apenas se tiver pelo menos 2 caracteres
+        let data_inicio = $('input[name="data_inicio_emprestimo"]').val();
+        let data_fim = $('input[name="data_fim_emprestimo"]').val();
+
+        if (busca.length >= 2) {
             $.ajax({
                 url: '../Model/buscarEquipamentos.php',
                 type: 'POST',
-                data: { busca: busca,
-                        data_inicio: data_inicio_emprestimo,
-                        data_fim: data_fim_emprestimo},
+                data: { busca: busca, data_inicio: data_inicio, data_fim: data_fim },
                 success: function(data) {
-                    console.log("Resposta do servidor:", data);
                     $('#lista-equipamentos').html(data).show();
                 }
             });
@@ -149,15 +169,17 @@ $(document).ready(function() {
         }
     });
 
-    // Adicionar equipamento à lista ao clicar
+    // Adicionar equipamento novo à lista
     $(document).on('click', '.equipamento-item', function() {
         let equipamentoNome = $(this).text();
         let equipamentoId = $(this).data('id');
 
-        let novoItem = `<li class="form-control col-md-4"  data-id="${equipamentoId}">${equipamentoNome}
-            <button type="button" class="btn btn-danger btn-sm remover-equipamento">Remover</button>
+        let novoItem = `
+        <li class="list-group-item d-flex justify-content-between align-items-center rounded-0">
+            ${equipamentoNome}
+            <button type="button" class="btn btn-outline-danger btn-sm remover-equipamento">Remover</button>
             <input type="hidden" name="equipamentos[]" value="${equipamentoId}">
-        <input type="hidden" name="nome_equipamentos[]" value="${equipamentoNome}">
+            <input type="hidden" name="nome_equipamentos[]" value="${equipamentoNome}">
         </li>`;
 
         $('#equipamentos-selecionados').append(novoItem);
@@ -165,18 +187,13 @@ $(document).ready(function() {
         $('#lista-equipamentos').hide();
     });
 
-    // Remover equipamento da lista
+    // Remover equipamento novo
     $(document).on('click', '.remover-equipamento', function() {
         $(this).parent().remove();
     });
 
-
-
-
-
+});
 </script>
 
-<?php 
-include 'footer.php'; 
-
-?>
+</body>
+</html>

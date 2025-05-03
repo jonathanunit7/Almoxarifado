@@ -17,14 +17,16 @@ $emprestimos = '';
 				$emprestimos .= '<tr class="">';
 			}
 
-	        $emprestimos .= '<td name="id_emprestimo" value='.$result['id_emprestimo'].'>' . $result['id_emprestimo'] . '</td>
-	        				<td name="solicitante">' . $result['solicitante'] . '</td>
-	                         <td>' . date("d/m/Y H:i:s", strtotime($result['data_inicio_emprestimo'])) . '</td>
-	                          <td>' . date("d/m/Y H:i:s", strtotime($result['data_fim_emprestimo'])) . '</td>';
+	        $emprestimos .= '<td class="col-1 text-center" name="id_emprestimo" value='.$result['id_emprestimo'].'>' . $result['id_emprestimo'] . '</td>
+	                          <td class="col-2 text-center">' . $result['atividade'] . '</td>
+	                          <td class="col-2 text-center">' . $result['destino'] . '</td>
+	        				<td class="col-1 text-center" name="solicitante">' . $result['solicitante'] . '</td>
+	                         <td class="col-2 text-center">' . date("d/m/Y H:i:s", strtotime($result['data_inicio_emprestimo'])) . '</td>
+	                          <td class="col-2 text-center">' . date("d/m/Y H:i:s", strtotime($result['data_fim_emprestimo'])) . '</td>';
 
 	                         $emprestimos .= ($result['id_emprestimo'] != $anterior) 
-	            				? '<td><a href="../Action/editarEmprestimo.php?id_emprestimo='.$result['id_emprestimo'].'"  style="text-decoration: none;"><button type="button" class="btn btn-success" >Entrar</button> </a>
-	            				<a href="../Action/excluirEmprestimo.php?id_emprestimo='.$result['id_emprestimo'].'" style="text-decoration: none;" onclick="return confirmarExclusao()"><button type="button" class="btn btn-danger" >Deletar</button> </a> </td></tr>' 
+	            				? '<td class="col-2 text-center"><a href="../Action/editarEmprestimo.php?id_emprestimo='.$result['id_emprestimo'].'"  style="text-decoration: none;"><button type="button" class="btn btn-success btn-sm" >Entrar</button> </a>
+	            				<a href="../Action/excluirEmprestimo.php?id_emprestimo='.$result['id_emprestimo'].'" style="text-decoration: none;" onclick="return confirmarExclusao()"><button type="button" class="btn btn-danger btn-sm" >Devolver</button> </a> </td></tr>' 
 	            				: '<td></td></tr>';	
 
 
@@ -46,24 +48,31 @@ $emprestimos = '';
 	<input class="form-control"  type="hidden" id='cod_fita' value=''>
 
 		
-	<h2 class="mt-5 container	">Pesquisa de Emprestimo</h2>
+	<h2 class="mt-5 text-center mb-1">Pesquisa de Emprestimo</h2>
 
 
 
 	<form method="post" action="../action/pesquisarEmprestimo.php">
 
-		<div class="form-group container">
-			<label  >Código do emprestimo</label>
-			<input value="*" class="form-control w-25 border-dark" name="cod_emprestimo" style="text-transform: uppercase;" required="required">
-		</div>
-		
-		
-		<div class="form-group container">
-			<button type="submit" id="pesquisar" class="btn btn-success mt-2" style="" >Pesquisar</button>
-		</div>
+		<div class="input-group mb-3 col-5 mt-6">
+	        <input type="text" name="cod_emprestimo" id="searchBox" class="form-control "  placeholder="Pesquisar por Número, Solicitante, Data, Destino ou Atividade">
+	        <button type="submit" class="btn btn-primary ms-2" id="searchButton">Pesquisar</button>
+    	</div>
 
-	
+	<section class='mt-3'>
+			<table class='table table-bordered table-striped mt-3' id='emprestimos'>
 
+			<thead>
+				<tr>
+					<th class='col-1 text-center' >Número</th>
+					<th class='col-2 text-center'>Atividade</th>
+					<th class='col-2 text-center'>Destino</th>
+					<th class='col-2 text-center'>Solicitante</th>
+					<th class='col-2 text-center'>Início do Emprestimo</th>
+					<th class='col-2 text-center'>Fim do Emprestimo</th>																			
+					<th class="col-2 text-center"> Ações</th>
+				</tr>
+			</thead>	
 
 
 	<main>
@@ -71,25 +80,17 @@ $emprestimos = '';
 
 		if (isset($result['solicitante']))
 		{
-			echo "<section>
-					<table class='container' id='emprestimos'>
-					<thead>
-						<tr>
-							<th class='col-3' >Número do Emprestimo</th>
-							<th>Solicitante</th>
-							<th>Início do Emprestimo</th>
-							<th>Fim do Emprestimo</th>							
-							<th> Ações</th>
-						</tr>
-					</thead>
+			echo "
 					<tbody>
 						$emprestimos
 					</tbody>
-				</table>
-			</section>";
+				";
 	}
 
 	?>
+
+	</table>
+			</section>
 </form>
 	
 </main>
@@ -128,6 +129,23 @@ $emprestimos = '';
 	} );
 
 </script>
+
+<style type="text/css">
+
+
+.mt-6 {
+  margin-top: 4rem;
+}
+
+ .table-striped tbody tr:nth-of-type(odd) {
+    background-color: red; /* Azul bem claro */
+  }
+
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: #ffffff; /* Branco (opcional) */
+  }
+
+</style>
 
 
 <?php 

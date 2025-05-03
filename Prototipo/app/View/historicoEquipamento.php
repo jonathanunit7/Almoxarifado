@@ -44,8 +44,8 @@ if($id){
                     <td><?= $result['descricao'] ?></td>
                     <td><?= number_format($result['custo'], 2, ',', '.') ?></td>
                     <td><?= $result['responsavel'] ?></td>
-                    <td><a class="text-decoration-none" href="../Action/editarHistoricoEquipamento.php?id_historico='<?= $result['id']?>'"><button type="button" class="btn btn-success">Editar</button> </a>
-                        <a class="text-decoration-none" href="../Action/excluirHistoricoEquipamento.php?id_historico='<?= $result['id']?>'"><button type="button" class="btn btn-danger">Excluir</button> </a> 
+                    <td><a class="text-decoration-none" href="../Action/editarHistoricoEquipamento.php?id_historico='<?= $result['id']?>'"><button type="button" class="btn btn-success btn-sm">Editar</button> </a>
+                        <a class="text-decoration-none" href="../Action/excluirHistoricoEquipamento.php?id_historico='<?= $result['id']?>'"><button type="button" class="btn btn-danger btn-sm">Excluir</button> </a> 
                     </td>    
                 </tr>
             <?php } ?>

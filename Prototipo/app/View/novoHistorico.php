@@ -2,80 +2,76 @@
 include 'header.php';   
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novo Histórico</title>
-</head>
-<body>
+<main>
+<div class="container-fluid mt-5">
 
+    <div class="bg-white p-5 rounded-4 shadow-sm">
 
-<div class="container mt-5">
-    <h2 class="mb-4">Novo Histórico <?= (isset($_GET['nome'])) ? ": ". $_GET['nome'] : ""  ?></h2>
-    
-        <!-- Formulário de Edição -->
-    <form action="..\action\novoHistoricoEquipamento.php" method="POST">
-        <input type="hidden" name="id" value="<?= (isset($_GET['id'])) ? $_GET['id'] : ""?>">
-
-        <div class="mb-3 col-md-6">
-            <label for="descrição" class="form-label">Descrição</label>
-            <input type="text" class="form-control border-dark" id="descricao" name="descricao" required>
+        <!-- Título -->
+        <div class="text-start mb-4">
+            <h2 class="fw-bold">Novo Histórico <?= (isset($_GET['nome'])) ? ": " . htmlspecialchars($_GET['nome']) : "" ?></h2>
+            <p class="text-muted">Preencha os dados da manutenção realizada.</p>
         </div>
 
-        <div class="mb-3 col-md-6">
-            <label for="nome" class="form-label">Data da manutenção</label>
-            <input type="text" class="form-control border-dark" id="data_manutencao" name="data_manutencao" required>
-        </div>
+        <!-- Formulário -->
+        <form action="../action/novoHistoricoEquipamento.php" method="POST">
+            <input type="hidden" name="id" value="<?= (isset($_GET['id'])) ? htmlspecialchars($_GET['id']) : "" ?>">
 
-        <div class="mb-3 col-md-6">
-            <label for="tipo" class="form-label">Responsável</label>
-            <input type="text" class="form-control border-dark" id="responsavel" name="responsavel" required>
-        </div>
+            <div class="row g-4">
 
-        <div class="mb-3 col-md-6">
-            <label for="tipo" class="form-label">Custo</label>
-            <input type="text" class="form-control border-dark" id="custo" name="custo" required>
-        </div>
+                <!-- Descrição -->
+                <div class="col-md-6">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" class="form-control form-control-lg border-dark" id="descricao" name="descricao" required>
+                </div>
 
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </form>
-</div>
+                <!-- Data da manutenção -->
+                <div class="col-md-6">
+                    <label for="data_manutencao" class="form-label">Data da Manutenção</label>
+                    <input type="datetime-local" class="form-control form-control-lg border-dark" id="data_manutencao" name="data_manutencao" required>
+                </div>
 
-<div class="container mt-1">  
-    <a href="javascript:history.back();" class="btn btn-secondary mt-3">Voltar</a>
+                <!-- Responsável -->
+                <div class="col-md-6">
+                    <label for="responsavel" class="form-label">Responsável</label>
+                    <input type="text" class="form-control form-control-lg border-dark" id="responsavel" name="responsavel" required>
+                </div>
+
+                <!-- Custo -->
+                <div class="col-md-6">
+                    <label for="custo" class="form-label">Custo</label>
+                    <input type="text" class="form-control form-control-lg border-dark" id="custo" name="custo" required>
+                </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div class="d-flex justify-content-end gap-3 mt-5">
+                <a href="javascript:history.back();" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Salvar
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Mensagem -->
+        <?php
+        if (isset($_SESSION['msg'])) {
+            $mensagem = $_SESSION['msg'];
+            echo "<div class='alert alert-success alert-dismissible fade show mt-4' role='alert'>
+                    <strong>Mensagem:</strong> $mensagem
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+            unset($_SESSION['msg']);
+        }
+        ?>
+
     </div>
 
-</body>
-</html>
+</div>
+</main>
 
-<script type="text/javascript">
-    
- flatpickr("#data_manutencao", {
-      enableTime: true,
-      dateFormat: "d-m-Y H:i:ss",
-      time_24hr: true
-  });
-
-
-</script>
-
-
-
-<?php
-
-
-if (isset($_SESSION['msg'])) {
-    
-  $mensagem = $_SESSION['msg'];
-    echo "<div class='alert alert-success alert-dismissible fade show mt-5 container' role='alert'>
-            <strong>Mensagem:</strong> $mensagem
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-          </div>";
-}
-
-    unset($_SESSION['msg']);
-
-
-include 'footer.php'; ?>
+<?php include 'footer.php'; ?>

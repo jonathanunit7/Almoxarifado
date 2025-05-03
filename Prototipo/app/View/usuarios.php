@@ -1,5 +1,12 @@
-<?php
-include 'header.php';   
+<?php 
+
+    if(isset($_SESSION['perfil'])){
+        if($_SESSION['perfil'] != 'Administrador' && $_SESSION['perfil'] != 'Almoxerife'){
+            header("refresh:1;url=../view/acessoNegado.php");
+            exit;     
+        }
+    }
+include 'header.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -11,15 +18,15 @@ include 'header.php';
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Lista de Usuários</h2>
-        <a href="../view/novoUsuario.php" class="btn btn-success mb-3">Criar Novo</a>
+        <h2 class="text-center">Lista de Usuários</h2>
+        <a href="../view/novoUsuario.php" class="btn btn-success mb-3">+ Criar Novo</a>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Função  </th>
-                    <th>Ações</th>
+                    <th class="text-center">Nome</th>
+                    <th class="text-center">E-mail</th>
+                    <th class="text-center col-2">Função  </th>
+                    <th class="text-center col-2">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,12 +34,12 @@ include 'header.php';
             if (isset($resultado) && !is_null($resultado)) {            
             foreach ($resultado as $result) { ?>
                 <tr>
-                    <td><?= $result['nome'] ?></td>
-                    <td><?= $result['email'] ?></td>
-                    <td><?= $result['perfil'] ?></td>
-                    <td class="col-3">
-                        <a class="text-decoration-none" href="../Action/editarUsuario.php?id_usuario='<?= $result['id']?>'"><button type="button" class="btn btn-success">Editar</button> </a>
-                        <a class="text-decoration-none" href="../Action/excluirUsuario.php?id_usuario='<?= $result['id']?>'"><button type="button" class="btn btn-danger">Deletar</button> </a>  
+                    <td class="text-center"><?= $result['nome'] ?></td>
+                    <td class="text-center"><?= $result['email'] ?></td>
+                    <td class="text-center col-2"><?= $result['perfil'] ?></td>
+                    <td class="text-center col-2">
+                        <a class="text-decoration-none" href="../Action/editarUsuario.php?id_usuario='<?= $result['id']?>'"><button type="button" class="btn btn-success btn-sm">Editar</button> </a>
+                        <a class="text-decoration-none" href="../Action/excluirUsuario.php?id_usuario='<?= $result['id']?>'"><button type="button" class="btn btn-danger btn-sm">Deletar</button> </a>  
                     </td>
                 </tr>
             <?php } }?>

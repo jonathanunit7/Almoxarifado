@@ -23,12 +23,10 @@ if (!isset($_SESSION['user_id'])) {
     <!-- jQuery -->
     <script src="../scripts/jquery-3.6.0.min.js"></script>
 
+    <script src="../scripts/validarCpf.js"></script>
+
     <!-- Bootstrap Bundle JS -->
     <script src="../scripts/bootstrap.bundle.min.js"></script>
-
-    <!-- Flatpickr CSS e JS -->
-    <link rel="stylesheet" href="../style/flatpickr.min.css">
-    <script src="../scripts/flatpickr.js"></script>
 
     <!-- DataTables CSS e JS -->
     <link rel="stylesheet" href="../style/jquery.dataTables.min.css">
@@ -39,7 +37,7 @@ if (!isset($_SESSION['user_id'])) {
 
     <style>
         .navbar-brand {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
@@ -48,9 +46,17 @@ if (!isset($_SESSION['user_id'])) {
             text-decoration: underline;
         }
 
+        .nav-link{
+            color: #E0E0E0;
+        }
+
         .user-info {
             margin-right: 1rem;
             color: white;
+        }
+
+        .fundo{
+            color: #E0E0E0;
         }
 
         .btn-logout {
@@ -59,8 +65,8 @@ if (!isset($_SESSION['user_id'])) {
     </style>
 </head>
 
-<body class="bg-light text-black">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="fundo text-black">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2a5d84;">
         <div class="container-fluid">
             <a class="navbar-brand" href="../View/index.php">Almox</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,29 +74,47 @@ if (!isset($_SESSION['user_id'])) {
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../View/emprestimo.php">Realizar Empréstimo</a>
+                    <?php
+                        if(isset($_SESSION['perfil']) ){
+                            if($_SESSION['perfil'] == 'Administrador' ||  $_SESSION['perfil'] == 'Almoxerife'){
+                            echo '<li class="nav-item">
+                                <a class="nav-link" href="../View/emprestimo.php">Realizar Empréstimo</a>
+                            </li>';
+                            }
+                        }
+                    ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="../Action/solicitacoes.php?id_usuario=<?=$_SESSION['user_id']?>">Solicitações</a>
                     </li>
+                    <?php
+                    if(isset($_SESSION['perfil']) ){
+                            if($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife' ){
+                            echo'<li class="nav-item">
+                                    <a class="nav-link" href="../Action/listarAtividade.php">Atividade</a>
+                                </li> ';
+                            }
+                    }
+                     ?> 
                     <li class="nav-item">
                         <a class="nav-link" href="../Action/listarEmprestimo.php">Agenda de Empréstimos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Action/listarEquipamentos.php">Equipamentos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../Action/usuarios.php">Usuários</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Solicitar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Atividade</a>
-                    </li>
+                    <?php
+                    if(isset($_SESSION['perfil']) ){
+                            if($_SESSION['perfil'] == 'Administrador'){
+                            echo '<li class="nav-item">
+                                    <a class="nav-link" href="../Action/usuarios.php">Usuários</a>
+                                </li>';
+                        }
+                    }    
+                  ?>            
                 </ul>
             </div>
             <div class="d-flex align-items-center">
                 <span class="user-info">Olá, <?= $_SESSION['nome'] ?></span>
-                <a href="../View/logout.php" class="btn btn-danger">Sair</a>
+                <a href="../View/logout.php" class="btn btn-danger btn-sm">Sair</a>
             </div>
         </div>
     </nav>

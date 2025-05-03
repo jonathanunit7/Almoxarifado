@@ -17,13 +17,14 @@ include 'header.php';
 <body>
 
 <div class="container mt-5">
-    <h2 class="">Lista de Equipamentos   </h2>
-
-     <a class="text-decoration-none mp-5" href="../view/novoEquipamento.php"><button type="button" class="btn btn-success">Novo Equipamento</button> </a>
+    <h2 class=" text-center">Lista de Equipamentos   </h2>
+    <?php if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife'){ ?>
+    <a class="text-decoration-none mp-3 mt-4" href="../view/novoEquipamento.php"><button type="button" class="btn btn-success mb-3">+ Novo Equipamento</button> </a>
+    <?php } ?>
     <form action="../Action/listarEquipamentos.php" method="POST">
     <!-- Campo  mt-2 Pesquisa -->
-    <div class="input-group mb-3 col-5 mt-5">
-        <input type="text" name="pesquisa" id="searchBox" class="form-control border-dark" placeholder="Pesquisar por Nome, Código de Barras ou Tipo...">
+    <div class="input-group mb-3 col-5 ">
+        <input type="text" name="pesquisa" id="searchBox" class="form-control " placeholder="Pesquisar por Nome, Código de Barras ou Tipo...">
         <button type="submit" class="btn btn-primary ms-2" id="searchButton">Pesquisar</button>
     </div>
     </form>
@@ -31,10 +32,13 @@ include 'header.php';
     <table class="table table-bordered table-striped mt-3" id="tabelaEquipamento">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Código de Barras</th>
-                <th>Tipo</th>
-                <th>Ação</th>
+                <th class="text-center">Nome</th>
+                <th class="text-center">Código de Barras</th>
+                <th class="text-center">Tipo</th>
+                <th class="text-center">Status</th>
+                <?php if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife'){ ?>
+                <th class="text-center">Ação</th>
+            <?php } ?>
             </tr>
         </thead>
         <tbody id="equipamentosTable">
@@ -42,14 +46,17 @@ include 'header.php';
             if (isset($resultado) && !is_null($resultado)) {            
             foreach ($resultado as $result) { ?>
                 <tr>
-                    <td><?= $result['nome'] ?></td>
-                    <td><?= $result['codigoDeBarra'] ?></td>
-                    <td><?= $result['tipo'] ?></td>
-                    <td class="col-3">
-                        <a class="text-decoration-none" href="../Action/editarEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-success">Editar</button> </a>
-                        <a class="text-decoration-none" href="../Action/historicoEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-secondary">Histórico</button> </a> 
-                        <a class="text-decoration-none" href="../Action/excluirEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-danger">Deletar</button> </a>  
+                    <td class="col-2 text-center"><?= $result['nome'] ?></td>
+                    <td class="col-2 text-center"><?= $result['codigoDeBarra'] ?></td>
+                    <td class="col-2 text-center"><?= $result['tipo'] ?></td>
+                    <td class="col-2 text-center"><?= $result['status'] ?></td>
+                    <?php if ($_SESSION['perfil'] == 'Administrador' || $_SESSION['perfil'] == 'Almoxerife'){ ?>
+                    <td class="col-3 text-center">
+                        <a class="text-decoration-none" href="../Action/editarEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-success btn-sm">Editar</button> </a>
+                        <a class="text-decoration-none" href="../Action/historicoEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-secondary btn-sm">Histórico</button> </a> 
+                        <a class="text-decoration-none" href="../Action/excluirEquipamento.php?id='<?= $result['id']?>'"><button type="button" class="btn btn-danger btn-sm">Deletar</button> </a>  
                     </td>
+                <?php } ?>
                 </tr>
             <?php } }?>
         </tbody>
