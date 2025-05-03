@@ -29,10 +29,10 @@ include(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'usu
 			
 		}
 
-		function updateUsuario($id=null, $nome=null, $email=null, $login=null, $senha=null, $perfil=null){
+		function updateUsuario($id=null, $nome=null, $cpf=null, $email=null, $login=null, $senha=null, $perfil=null){
 		
 			$usuario = new usuariosModel();
-			$resultado = $usuario->updateUsuarioModel($id, $nome, $email, $login, $senha, $perfil);
+			$resultado = $usuario->updateUsuarioModel($id, $nome, $cpf, $email, $login, $senha, $perfil);
 			
 			if($resultado==true){
 				$resultado = $usuario->editarUsuarioModel($id);
@@ -43,10 +43,10 @@ include(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'usu
 			
 		}
 
-		function inserirUsuario($nome=null, $email=null, $login=null, $senha=null, $perfil=null){
+		function inserirUsuario($nome=null, $cpf=null, $email=null, $login=null, $senha=null, $perfil=null){
 
 			$usuario = new usuariosModel();
-			$resultado = $usuario->inserirUsuarioModel($nome, $email, $login, $senha, $perfil);
+			$resultado = $usuario->inserirUsuarioModel($nome, $cpf, $email, $login, $senha, $perfil);
 
 			if($resultado != false){
 				session_start();

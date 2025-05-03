@@ -7,26 +7,32 @@ include(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'emp
  	
 	class emprestimoController{
 		
-		function emprestarEquipamento($codigoDeBarras=null, $nome_equipamento, $solicitante=null, $cpfSolicitante=null, $id_emprestimo=null, $data_inicio_emprestimo=null, $data_fim_emprestimo=null){
+		function emprestarEquipamento($codigoDeBarras=null, $nome_equipamento, $nome_solicitante=null, $cpfSolicitante=null, $id_emprestimo=null, $data_inicio_emprestimo=null, $data_fim_emprestimo=null, $destino=null, $nome_atividade=null, $solicitacao=null){
 			$emprestimoModel = new emprestimoModel();
 			
-			$resultado = $emprestimoModel->emprestarEquipamentoModel($codigoDeBarras, $nome_equipamento, $solicitante, $cpfSolicitante, $id_emprestimo, $data_inicio_emprestimo, $data_fim_emprestimo);
+			$resultado = $emprestimoModel->emprestarEquipamentoModel($codigoDeBarras, $nome_equipamento, $nome_solicitante, $cpfSolicitante, $id_emprestimo, $data_inicio_emprestimo, $data_fim_emprestimo, $destino, $nome_atividade, $solicitacao);
+
+
 
 			if(empty($resultado)){
 				return false;
-			}else{
+			}elseif(!empty($resultado) && !isset($solicitacao) && empty($solicitacao)){
 				header("Location: ../view/emprestimo.php?msg=Emprestimo realizado com sucesso");
+    			exit();	
+			}else{
+				$_SESSION['msg'] = "Emprestimo criado com sucesso";	
+				header("Location: ../Action/entrarSolicitacao.php?id=".$solicitacao);
     			exit();	
 			}
 		}
 
 
-		function pesquisaEmprestimo($codEmprestimo=null){
+		function pesquisaEmprestimo($emprestimo=null){
 			define('TITLE','Pesquisar Emprestimo');
 
-			if(!empty($codEmprestimo)){
+			if(!empty($emprestimo)){
 				$emprestimoModel = new emprestimoModel();
-				$resultado = $emprestimoModel->pesquisaEmprestimoModel($codEmprestimo);
+				$resultado = $emprestimoModel->pesquisaEmprestimoModel($emprestimo);
 			}
 
 			include(dirname(__DIR__, 1).'/view/pesquisarEmprestimo.php');
@@ -54,12 +60,13 @@ include(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'emp
 			include(dirname(__DIR__, 1).'/view/editarEmprestimo.php');
 		}
 
-		function updateEmprestimo($solicitante=null, $cpf_solicitante=null, $id_emprestimo=null, $nome_equipamento=null, $data_inicio_emprestimo=null, $data_fim_emprestimo=null, $equipamentos=null){
+		function updateEmprestimo($solicitante=null, $cpf_solicitante=null, $id_emprestimo=null, $nome_equipamento=null, $data_inicio_emprestimo=null, $data_fim_emprestimo=null, $equipamentos=null, $nome_atividade=null, $destino=null){
 			$emprestimoModel = new emprestimoModel();
-			$resultado = $emprestimoModel->updateEmprestimoModel($solicitante, $cpf_solicitante, $id_emprestimo, $nome_equipamento, $data_inicio_emprestimo, $data_fim_emprestimo, $equipamentos);
+			$resultado = $emprestimoModel->updateEmprestimoModel($solicitante, $cpf_solicitante, $id_emprestimo, $nome_equipamento, $data_inicio_emprestimo, $data_fim_emprestimo, $equipamentos, $nome_atividade, $destino);
 
-			header("Location: " . $_SERVER['HTTP_REFERER']);
-        	exit();
+			$resultado = $emprestimoModel->editarEmprestimoModel($id_emprestimo);
+
+			include(dirname(__DIR__, 1).'/view/editarEmprestimo.php');
 		}
 
 
