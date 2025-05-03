@@ -36,9 +36,10 @@
 	        return $resultado;
     	}
 
-    	function updateUsuarioModel($id=null, $nome=null, $email=null,  $login=null, $senha=null, $perfil=null){		
+    	function updateUsuarioModel($id=null, $nome=null, $cpf=null, $email=null,  $login=null, $senha=null, $perfil=null){		
 
 			$nome = "'" . $nome . "'";
+			$cpf = "'" . $cpf . "'";
 		    $email = "'" .$email."'";
 		    $login = "'" . $login . "'";
 		    $perfil = "'" .$perfil."'";
@@ -51,7 +52,8 @@
 			}
 
 		    $query = "UPDATE usuarios 
-		              SET nome = {$nome}, 
+		              SET nome = {$nome},
+		              	  cpf = {$cpf}, 
 		                  email = {$email},
 		                  login = {$login},
 		                  senha = {$senha}, 
@@ -63,24 +65,23 @@
 		}
 
 
-		function inserirUsuarioModel($nome=null, $email=null,  $login=null, $senha=null, $perfil=null){	
+		function inserirUsuarioModel($nome=null, $cpf=null, $email=null,  $login=null, $senha=null, $perfil=null){	
 		    
 			if($this->confereLoginUnico($login)){
 				return false;
 			}else{
 
 			    $nome = "'" . $nome . "'";
+			    $cpf = "'" . $cpf . "'";
 			    $email = "'" .$email."'";
-			    $login = "'" . $login . "'";
-			   
+			    $login = "'" . $login . "'";			   
 			    $perfil = "'" .$perfil."'";
 
 			    $hash = password_hash($senha, PASSWORD_DEFAULT);
 			     $senha = "'" . $hash . "'";
 
-
-			    $query = "INSERT INTO usuarios (nome, email, login, senha, perfil) 
-			              VALUES ({$nome}, {$email}, {$login}, {$senha}, {$perfil})";
+			    $query = "INSERT INTO usuarios (nome, cpf, email, login, senha, perfil) 
+			              VALUES ({$nome}, {$cpf}, {$email}, {$login}, {$senha}, {$perfil})";
 			    $resultado = $this->executaQuery($query);
 			    return $resultado;
 			}

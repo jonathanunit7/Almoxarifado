@@ -23,6 +23,8 @@
 
 			    	 $_SESSION['user_id'] = $resultado[0]['id'];
        				 $_SESSION['nome'] = $resultado[0]['nome'];
+       				 $_SESSION['cpf'] = $resultado[0]['cpf'];
+       				 $_SESSION['perfil'] = $resultado[0]['perfil'];       				 
 
 			    	return $resultado;
 			    }else {
